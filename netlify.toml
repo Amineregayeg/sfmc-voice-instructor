@@ -1,0 +1,49 @@
+# Netlify configuration for SFMC Voice Instructor
+[build]
+  base = "."
+  publish = "apps/web/dist"
+  command = "pnpm install && pnpm build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  PNPM_VERSION = "8.15.0"
+
+# Netlify Functions
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# API routes to Netlify Functions (must come before SPA fallback)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/health"
+  to = "/.netlify/functions/server/health"
+  status = 200
+
+# SPA fallback - must be last
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "microphone=*, camera=()"
+
+# Stricter headers for API endpoints
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Access-Control-Allow-Credentials = "true"
