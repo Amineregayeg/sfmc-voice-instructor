@@ -15,8 +15,10 @@ interface AppState {
   // Audio features
   micFeatures: AudioFeatures | null;
   assistantFeatures: AudioFeatures | null;
+  assistantAudioTrack: MediaStreamTrack | null;
   setMicFeatures: (features: AudioFeatures) => void;
   setAssistantFeatures: (features: AudioFeatures) => void;
+  setAssistantAudioTrack: (track: MediaStreamTrack | null) => void;
 
   // Speaking states
   isMicSpeaking: boolean;
@@ -68,6 +70,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Audio features
   micFeatures: null,
   assistantFeatures: null,
+  assistantAudioTrack: null,
   setMicFeatures: (features) => {
     set({ micFeatures: features });
     // Update latency (time from capture to update)
@@ -75,6 +78,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     get().setLatency(latency);
   },
   setAssistantFeatures: (features) => set({ assistantFeatures: features }),
+  setAssistantAudioTrack: (track) => set({ assistantAudioTrack: track }),
 
   // Speaking states
   isMicSpeaking: false,

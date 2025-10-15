@@ -17,6 +17,7 @@ function App() {
     setConnectionState,
     setMicFeatures,
     setAssistantFeatures,
+    setAssistantAudioTrack,
     setSpeakingState,
     addToTranscript,
     micMuted
@@ -64,6 +65,8 @@ function App() {
           if (audioManagerRef.current) {
             audioManagerRef.current.connectAssistant(track);
           }
+          // Store track for blob visualization
+          setAssistantAudioTrack(track);
         },
         onTranscript: (text, isFinal) => {
           if (isFinal) {
@@ -112,6 +115,9 @@ function App() {
     if (audioManagerRef.current) {
       await audioManagerRef.current.disconnect();
     }
+
+    // Clear assistant audio track
+    setAssistantAudioTrack(null);
 
     console.log("[App] Disconnected");
   };
