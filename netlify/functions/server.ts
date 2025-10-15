@@ -68,8 +68,10 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
   // Route handling
   const path = event.path.replace("/.netlify/functions/server", "");
 
-  // Health check
-  if (path === "/health" || path === "") {
+  console.log(`[Netlify Function] Received request: ${event.httpMethod} ${event.path} -> path: ${path}`);
+
+  // Health check (root or /health)
+  if (path === "/health" || path === "" || event.path === "/.netlify/functions/server") {
     return {
       statusCode: 200,
       headers,
@@ -78,7 +80,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
   }
 
   // Token endpoint
-  if (path === "/token" && event.httpMethod === "POST") {
+  if ((path === "/token" || path === "") && event.httpMethod === "POST") {
     try {
       if (!OPENAI_API_KEY) {
         return {

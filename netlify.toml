@@ -15,13 +15,13 @@
 
 # API routes to Netlify Functions (must come before SPA fallback)
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/server/:splat"
+  from = "/api/token"
+  to = "/.netlify/functions/server"
   status = 200
 
 [[redirects]]
   from = "/health"
-  to = "/.netlify/functions/server/health"
+  to = "/.netlify/functions/server"
   status = 200
 
 # SPA fallback - must be last
