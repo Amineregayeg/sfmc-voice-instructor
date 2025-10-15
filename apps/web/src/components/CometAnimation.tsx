@@ -53,7 +53,7 @@ export function CometAnimation() {
             <Suspense fallback={null}>
               <Blob
                 audioTrack={assistantAudioTrack}
-                baseColor={0x00D9FF}
+                baseColor={0x1a1a1a}
                 noiseSpeed={0.4}
                 intensityIdle={0.2}
                 intensityHover={0.7}
